@@ -1,9 +1,9 @@
 services:
-  sciurus-humble:
+  sciurus-jazzy:
     build:
       context: ..
       dockerfile: env_docker/Dockerfile
-    container_name: sciurus-humble
+    container_name: sciurus-jazzy
     network_mode: "host"
     environment:
       - ROS_DOMAIN_ID=117
@@ -12,6 +12,9 @@ services:
       - CYCLONEDDS_URI=file:///ros2_ws/cyclonedds_profile.xml
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
+      # NVIDIA GPUを使う場合 (下の deploy ブロックも有効化する)
+      # - NVIDIA_VISIBLE_DEVICES=all
+      # - NVIDIA_DRIVER_CAPABILITIES=all
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /etc/udev/rules.d:/etc/udev/rules.d
@@ -21,8 +24,17 @@ services:
     tty: true
     stdin_open: true
 
+    # NVIDIA GPUを使う場合 (nvidia-container-toolkit が必要)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
     #command: bash
-    command: ros2 launch sciurus17_gazebo sciurus17_with_table.launch.py use_sim_time:=true
+    # jazzy版では launch 内で use_sim_time:=true が設定される
+    command: ros2 launch sciurus17_gazebo sciurus17_gazebo.launch.py
 
     # test_command -> ros2 launch sciurus17_examples example.launch.py example:='pick_and_place_right_arm_waist' use_sim_time:='true'
-
