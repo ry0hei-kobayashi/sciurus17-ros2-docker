@@ -33,8 +33,8 @@ services:
     #           count: all
     #           capabilities: [gpu]
 
-    #command: bash
+    command: bash
     # jazzy版では launch 内で use_sim_time:=true が設定される
-    command: ros2 launch sciurus17_gazebo sciurus17_gazebo.launch.py
+    #command: ros2 launch sciurus17_gazebo sciurus17_gazebo.launch.py
 
     # test_command -> ros2 launch sciurus17_examples example.launch.py example:='pick_and_place_right_arm_waist' use_sim_time:='true'
